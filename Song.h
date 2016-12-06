@@ -9,21 +9,14 @@ using namespace std;
 class Song{
 
 public:
-  // Default constructor
-  Song(){};
-  // In cpp initialize numberOfPlays to 0
-  // Figure out uniqueIdentifier
-  // Constructor, initializes a song's, title, artist, and album
-  Song(string songTitleSet, string artistNameSet, string albumTitleSet){};
-
-
+  // Constructor, initializes a song's, title, artist, and album name
+  Song(string songTitleSet, string artistNameSet, string albumTitleSet);
+  friend ostream& operator<<(ostream& os, const Song& song);
+  bool operator==(const Song& rhs);
 private:
   string songTitle;
   string artistName;
   string albumTitle;
-  unsigned int numberOfPlays;
-  unsigned int uniqueIdentifier;
 };
-
 
 #endif // SONG_H_

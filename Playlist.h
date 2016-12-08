@@ -13,7 +13,7 @@ public:
   void addSong(unsigned int id);
   void removeSong(unsigned int id);
   void renamePlaylist(string newTitle);
-  void displayAll();
+  void playlistDisplayAll();
   // the reason why I dont need to overload the == operator
   // is because when we store the playlists in to the hashtable
   // using the name as the key (becaus it is unique among all playlists)

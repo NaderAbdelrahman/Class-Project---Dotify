@@ -20,7 +20,7 @@ void Playlist::removeSong(unsigned int id){
 void Playlist::renamePlaylist(string newTitle){
   playlistTitle = newTitle;
 }
-void Playlist::displayAll(){
+void Playlist::playlistDisplayAll(){
   for (int i = 0; i < playlist.size(); ++i){
 
   }

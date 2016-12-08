@@ -13,6 +13,9 @@ public:
   Song(string songTitleSet, string artistNameSet, string albumTitleSet);
   friend ostream& operator<<(ostream& os, const Song& song);
   bool operator==(const Song& rhs);
+  string songTitleGetter(){return songTitle;}
+  string artistNameGetter(){return artistName;}
+  string albumTitleGetter(){return albumTitle;}
 private:
   string songTitle;
   string artistName;

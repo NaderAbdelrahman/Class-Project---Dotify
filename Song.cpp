@@ -9,7 +9,7 @@ Song::Song(string songTitleSet, string artistNameSet, string albumTitleSet){
   albumTitle = albumTitleSet;
 }
 ostream& operator<<(ostream& os, const Song& song){
-  os << "\"" <<song.songTitle << "\" by " << song.artistName << " (" << song.albumTitle << ")" << endl;
+  os << "\"" << song.songTitle << "\" by " << song.artistName << " (" << song.albumTitle << ")";
   return os;
 }
 bool Song::operator==(const Song& rhs){

@@ -2,7 +2,7 @@ CC = g++
 LFLAGS = -std=c++11
 CFLAGS = -c -Wall
 
-SOURCES = main.cpp Song.cpp Playlist.cpp Library.cpp
+SOURCES = main.cpp Song.cpp Playlist.cpp Library.cpp libraryDriver.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE_NAME = dotify
 

@@ -6,27 +6,25 @@
 Playlist::Playlist(string title){
   playlistTitle = title;
 }
-void Playlist::addSong(unsigned int id){
-  playlist.push_back(id);
-
-}
+void Playlist::addSong(unsigned int id){playlistVector.push_back(id);}
 void Playlist::removeSong(unsigned int id){
-  for (int i = 0; i < playlist.size(); ++i){
-    if (playlist.at(i) == id){
-      playlist.erase(playlist.begin() + i - 1);
+  for (int i = 0; i < playlistVector.size(); ++i){
+    if (playlistVector.at(i) == id){
+      playlistVector.erase(playlistVector.begin() + i - 1);
     }
   }
 }
-void Playlist::renamePlaylist(string newTitle){
-  playlistTitle = newTitle;
-}
 void Playlist::playlistDisplayAll(){
-  for (int i = 0; i < playlist.size(); ++i){
-
+  for (int i = 0; i < playlistVector.size(); ++i){
+    Library::songPrint(playlistVector[i]);
   }
 }
-// bool Playlist::operator==(Playlist& rhs){
-//   return playlistTitle == rhs.playlistTitle;
+ostream& operator<<(ostream& os, const Playlist& playlist){
+  os << "\"" << playlist.playlistTitle << "\" - Rating: "
+  << playlist.playlistRating << " - " << playlist.playlistVector.size() << " songs" << endl;
+  return os;
+}
+// void Playlist::ratePlaylist(unsigned int rating){
+//   playlistRating = rating;
 // }
-
 #endif // PLAYLIST_CPP_

@@ -6,24 +6,29 @@ using namespace std;
 
 int main() {
 
-  Song obj("a", "zArtist", "HTrash Talk2");
-  Song obj2("az", "cArtist", "JTrash Talk2");
-  Song obj3("z", "Xartist", "KTrash Talk2");
-  Song obj4("C", "AArtist", "ITrash Talk2");
-
-  // Song obj2("The Final Bloatdown", "Simon Ayzman", "Trash Talk2");
-  // bool x = obj == obj2;
-  // cout << x << endl;
   Library lib;
-  Song* objPtr = &obj;
-  Song* objPtr2 = &obj2;
-  Song* objPtr3 = &obj3;
-  Song* objPtr4 = &obj4;
-  lib.addSong(objPtr);
-  lib.addSong(objPtr2);
-  lib.addSong(objPtr3);
-  lib.addSong(objPtr4);
-  lib.libraryDisplayAll("ALBUvffM");
+  Playlist ply;
+
+  // Song * obj = new Song("a", "zArtist", "HTrash Talk2");
+  // Song * obj2 = new Song("az", "cArtist", "JTrash Talk2");
+  // Song * obj3 = new Song("z", "Xartist", "KTrash Talk2");
+  // Song * obj4 = new Song("C", "AArtist", "ITrash Talk2");
+
+  // lib.addSong(obj);
+  // lib.addSong(obj2);
+  // lib.addSong(obj3);
+  // lib.addSong(obj4);
+  // lib.libraryDisplayAll("ARTIST");
+  // // lib.removeSong(0);
+  // // lib.libraryDisplayAll("NAME");
+  // lib.playSong(0, 5);
+
+  // lib.libraryDisplayAll("ARTIST");
+  // //lib.numberOfTimesPlaysGetter(0);
+
+  lib.addPlaylist("test");
+  lib.displayAllPlaylists();
+
 
   return 0;
 }

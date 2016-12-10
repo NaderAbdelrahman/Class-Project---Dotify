@@ -12,19 +12,15 @@ public:
   Playlist(string title);
   void addSong(unsigned int id);
   void removeSong(unsigned int id);
-  void renamePlaylist(string newTitle);
   void playlistDisplayAll();
-  // the reason why I dont need to overload the == operator
-  // is because when we store the playlists in to the hashtable
-  // using the name as the key (becaus it is unique among all playlists)
-  // we can just search the hastable to se if the playlist name exists
-  //bool operator==(Playlist& rhs);
-  // for overloading the << we can just implement a function that can do this instead
-  // friend operator<<()
+  // void playlistTitleSetter(string title){playlistTitle = title;}
+  // string playlistTitleGetter(){return playlistTitle;}
+  // void playlistRatingSetter(unsigned int rating){playlistRating = rating;}
+  // unsigned int playlistRatingGetter(){return playlistRating;}
+  friend ostream& operator<<(ostream& os, const Playlist& playlist);
 private:
   string playlistTitle;
   unsigned int playlistRating = 1; 
-  vector<unsigned int> playlist; 
-
+  vector<unsigned int> playlistVector;
 };
 #endif // PLAYLIST_H_

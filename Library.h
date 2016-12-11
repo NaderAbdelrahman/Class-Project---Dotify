@@ -42,8 +42,13 @@ public:
   static bool playlistCompareFunction (Playlist* a, Playlist* b);
   bool ratePlaylist(string title, unsigned int rating);
   bool songExists(Song* aSong);
+  bool songExists(unsigned int id);
   bool playlistExists(string name);
-  void songPrint(unsigned int id);
+  bool songPlaylistPrint(string title);
+  void printSongFromId(unsigned int id);
+  void addSongPlaylist(string title, unsigned int id);
+  void removeSongPlaylist(string title, unsigned int id);
+  unsigned int findId(Song* aSong);
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 0;

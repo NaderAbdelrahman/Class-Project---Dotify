@@ -8,17 +8,17 @@ Playlist::Playlist(string title){
 }
 void Playlist::addSong(unsigned int id){playlistVector.push_back(id);}
 void Playlist::removeSong(unsigned int id){
-  for (int i = 0; i < playlistVector.size(); ++i){
+  for (unsigned int i = 0; i < playlistVector.size(); ++i){
     if (playlistVector.at(i) == id){
       playlistVector.erase(playlistVector.begin() + i - 1);
     }
   }
 }
-void Playlist::playlistDisplayAll(){
-  for (int i = 0; i < playlistVector.size(); ++i){
-    Library::songPrint(playlistVector[i]);
-  }
-}
+// void Playlist::playlistDisplayAll(){
+//   for (int i = 0; i < playlistVector.size(); ++i){
+//     Library::songPrint(playlistVector[i]);
+//   }
+// }
 ostream& operator<<(ostream& os, const Playlist& playlist){
   os << "\"" << playlist.playlistTitle << "\" - Rating: "
   << playlist.playlistRating << " - " << playlist.playlistVector.size() << " songs" << endl;

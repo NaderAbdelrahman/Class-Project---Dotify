@@ -12,12 +12,14 @@ public:
   Playlist(string title);
   void addSong(unsigned int id);
   void removeSong(unsigned int id);
-  void playlistDisplayAll();
-  // void playlistTitleSetter(string title){playlistTitle = title;}
-  // string playlistTitleGetter(){return playlistTitle;}
-  // void playlistRatingSetter(unsigned int rating){playlistRating = rating;}
-  // unsigned int playlistRatingGetter(){return playlistRating;}
+  //void playlistDisplayAll();
+  void playlistTitleSetter(string title){playlistTitle = title;}
+  string playlistTitleGetter(){return playlistTitle;}
+  void playlistRatingSetter(unsigned int rating){playlistRating = rating;}
+  unsigned int playlistRatingGetter(){return playlistRating;}
   friend ostream& operator<<(ostream& os, const Playlist& playlist);
+  unsigned int playlistVectorSize(){return playlistVector.size();}
+  unsigned int playlistElementFetcher(unsigned int t){return playlistVector[t];}
 private:
   string playlistTitle;
   unsigned int playlistRating = 1; 

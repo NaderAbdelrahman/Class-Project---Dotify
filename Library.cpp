@@ -4,13 +4,18 @@
 #include "Library.h"
 
 bool Library::addSong(Song* aSong){
-  if (songExists(aSong)){return false;}
-
+  if (songExists(aSong)){
+    cout << *aSong << ", identified as #" << findId(aSong)
+    << ", already exists in your library." << endl << "> ";
+    return false;
+  }
   songWrapper *wrapper = new songWrapper;
   wrapper -> theSong = aSong;
   wrapper -> id = uniqueId;
   wrapper -> numberOfPlays = 0;
   library.insert({uniqueId, wrapper});
+  cout << *aSong << ", identified as #" << uniqueId
+    << ", purchased successfully to your library." << endl << "> ";
   ++uniqueId;
   return true;
     
@@ -22,7 +27,7 @@ bool Library::removeSong(unsigned int id){
   library.erase(id);
   return true;
 }
-bool Library::playSong(unsigned int id, int ntimes){
+bool Library::playSong(unsigned int id, unsigned int ntimes){
   if (library.at(id) == NULL){return false;}
   unsigned int numberOfPlaysPrev;
   numberOfPlaysPrev = library.at(id) -> numberOfPlays;
@@ -135,6 +140,7 @@ bool Library::renamePlaylist(string oldName, string newName){
   if(playlistExists(newName)){return false;}
   playlistLibrary.insert({newName, playlistLibrary.at(oldName)});
   playlistLibrary.at(newName) -> playlistTitleSetter(newName);
+  // DO I DELETE HERE?????????
   playlistLibrary.erase(oldName);
   return true;
 }
@@ -175,14 +181,47 @@ bool Library::songExists(Song* aSong){
   }
   return false;
 }
+bool Library::songExists(unsigned int id){
+  for(auto it = library.begin(); it != library.end(); ++it){
+    if (id == it -> first){return true;}
+  }
+  return false;
+}
 bool Library::playlistExists(string name){
   for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
     if (name == it -> first){return true;}
   }
   return false;
 }
-void Library::songPrint(unsigned int id){
-  cout << *(library.at(id) -> second); 
+bool Library::songPlaylistPrint(string title){
+  //   for (int i = 0; i < playlistLibrary.at(title) -> second -> playlistVector.size(); ++i){
+  //   songPrint(playlistLibrary.at(title) -> second -> playlistVector[i]);
+  // }
+  // cout << *(library.at(id) -> second);
+  if(playlistLibrary.at(title) -> playlistVectorSize() == 0){return false;}
+  for(unsigned int i = 0; i <  playlistLibrary.at(title) -> playlistVectorSize(); ++i){
+    printSongFromId(playlistLibrary.at(title) -> playlistElementFetcher(i));
+  }
+  return true;
 }
-
+void Library::printSongFromId(unsigned int id){
+  cout << *(library.at(id)) << endl;
+}
+void Library::addSongPlaylist(string title, unsigned int id){
+// This function is void instead of bool because
+// there are different types of errors that can occur
+  if(!playlistExists(title)){cout << "\"" << title << "\"" << " playlist does not exist." << endl;}
+  if(!songExists(id)){cout << "No song with identifier #" << id << " exists in your library." << endl;}
+  playlistLibrary.at(title) -> addSong(id);
+}
+void Library::removeSongPlaylist(string title, unsigned int id){
+  if(!playlistExists(title)){cout << "\"" << title << "\"" << " playlist does not exist." << endl;}
+  if(!songExists(id)){cout << "No song with identifier #" << id << " exists in your library." << endl;}
+  playlistLibrary.at(title) -> removeSong(id);
+}
+unsigned int Library::findId(Song* aSong){
+  for(auto it = library.begin(); it != library.end(); ++it){
+    if (*aSong == *(it -> second -> theSong)){return it -> first;}
+  }
+}
 #endif // LIBRARY_CPP_

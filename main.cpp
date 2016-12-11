@@ -1,13 +1,13 @@
-#include "Song.h"
-#include "Library.h"
-#include "Playlist.h"
+#include "dotifyInterface.h"
 
 using namespace std;
 
 int main() {
 
-  Library lib;
-  Playlist ply;
+  dotifyInterface hai;
+  hai.run();
+  //Library lib;
+  // Playlist ply;
 
   // Song * obj = new Song("a", "zArtist", "HTrash Talk2");
   // Song * obj2 = new Song("az", "cArtist", "JTrash Talk2");
@@ -26,8 +26,6 @@ int main() {
   // lib.libraryDisplayAll("ARTIST");
   // //lib.numberOfTimesPlaysGetter(0);
 
-  lib.addPlaylist("test");
-  lib.displayAllPlaylists();
 
 
   return 0;

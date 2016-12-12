@@ -27,12 +27,12 @@ class Library{
 
 public:
   bool addSong(Song* aSong);
-  bool removeSong(unsigned int id);
+  void removeSong(unsigned int id);
   bool playSong(unsigned int id, unsigned int ntimes);
   void libraryDisplayAll(string organizeBy);
   bool addPlaylist(string title);
   bool removePlaylist(string title); 
-  bool renamePlaylist(string oldName, string newName);
+  void renamePlaylist(string oldName, string newName);
   void displayAllPlaylists();
   unsigned int numberOfTimesPlaysGetter(unsigned int id){return library.at(id) -> numberOfPlays;}
   static bool songTitleCompareFunction (songWrapper* a, songWrapper* b);
@@ -40,15 +40,16 @@ public:
   static bool albumTitleCompareFunction (songWrapper* a, songWrapper* b);
   static bool numPlaysCompareFunction (songWrapper* a, songWrapper* b);
   static bool playlistCompareFunction (Playlist* a, Playlist* b);
-  bool ratePlaylist(string title, unsigned int rating);
+  void ratePlaylist(string title, unsigned int rating);
   bool songExists(Song* aSong);
   bool songExists(unsigned int id);
   bool playlistExists(string name);
-  bool songPlaylistPrint(string title);
+  void songPlaylistPrint(string title);
   void printSongFromId(unsigned int id);
   void addSongPlaylist(string title, unsigned int id);
   void removeSongPlaylist(string title, unsigned int id);
   unsigned int findId(Song* aSong);
+  void printSongFromId2(unsigned int id);
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 0;

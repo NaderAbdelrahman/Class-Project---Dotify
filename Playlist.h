@@ -11,8 +11,7 @@ class Playlist{
 public:
   Playlist(string title);
   void addSong(unsigned int id);
-  void removeSong(unsigned int id);
-  //void playlistDisplayAll();
+  bool removeSong(unsigned int id);
   void playlistTitleSetter(string title){playlistTitle = title;}
   string playlistTitleGetter(){return playlistTitle;}
   void playlistRatingSetter(unsigned int rating){playlistRating = rating;}

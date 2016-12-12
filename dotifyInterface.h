@@ -15,4 +15,4 @@ private:
 };
 
 
-#endif // DOTIFY_INTERFACE_H_i
+#endif // DOTIFY_INTERFACE_H_

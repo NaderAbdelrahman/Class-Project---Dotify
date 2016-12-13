@@ -26,23 +26,11 @@ void Library::removeSong(unsigned int id){
     cout << "No song with identifier #" << id <<" exists in your library." << endl << "> ";
     return;
   }
-  vector<string> temp;
-  cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library" << endl << "> ";
-  for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
-    if(it -> second -> removeSong(id)){
-        temp.push_back(it -> first);
-      }
-  }
-  if(!temp.empty()){
-    cout << "and from playlists ";
-    for(unsigned int i = 0; i < temp.size(); ++i){
-      cout << temp[i] << ", ";
-    }
-  }
-  delete library.at(id) -> theSong;
-  delete library.at(id);
-  library.erase(id);
-}
+
+    cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library" << endl;
+    delete library.at(id) -> theSong;
+    delete library.at(id);
+    library.erase(id);}
 bool Library::playSong(unsigned int id, unsigned int ntimes){
   unsigned int numberOfPlaysPrev;
   numberOfPlaysPrev = library.at(id) -> numberOfPlays;
@@ -54,7 +42,7 @@ bool Library::playSong(unsigned int id, unsigned int ntimes){
 }
 void Library::libraryDisplayAll(string organizeBy){
   if (library.empty()){
-    cout << "You have no songs in your library." << endl;
+    cout << "You have no songs in your library." << endl << "> ";
     return;
   }
   if(organizeBy == "NAME"){
@@ -64,7 +52,7 @@ void Library::libraryDisplayAll(string organizeBy){
     }
     sort(temp.begin(), temp.end(), songTitleCompareFunction);
     for (unsigned int i = 0; i < temp.size(); ++i){
-    cout << *temp.at(i);
+    cout << i + 1 << ". " << *temp.at(i);
     }
   }
   else if(organizeBy == "ARTIST"){
@@ -74,7 +62,7 @@ void Library::libraryDisplayAll(string organizeBy){
     }
     sort(temp.begin(), temp.end(), artistNameCompareFunction);
     for (unsigned int i = 0; i < temp.size(); ++i){
-      cout << *temp.at(i);
+      cout  << i + 1 << ". " << *temp.at(i);
     }
   }
   else if(organizeBy == "ALBUM"){
@@ -84,7 +72,7 @@ void Library::libraryDisplayAll(string organizeBy){
     }
     sort(temp.begin(), temp.end(), albumTitleCompareFunction);
     for (unsigned int i = 0; i < temp.size(); ++i){
-      cout << *temp.at(i);
+      cout  << i + 1 << ". " << *temp.at(i);
     }
   }
   else if(organizeBy == "PLAYS"){
@@ -94,7 +82,7 @@ void Library::libraryDisplayAll(string organizeBy){
     }
     sort(temp.begin(), temp.end(), numPlaysCompareFunction);
     for (unsigned int i = 0; i < temp.size(); ++i){
-      cout << *temp.at(i);
+      cout  << i + 1 << ". " << *temp.at(i);
     }
   }
   else{
@@ -104,8 +92,7 @@ void Library::libraryDisplayAll(string organizeBy){
     }
     sort(temp.begin(), temp.end(), songTitleCompareFunction);
     for (unsigned int i = 0; i < temp.size(); ++i){
-      //cout << *(temp.at(i) -> theSong);
-      cout << *temp.at(i);
+      cout  << i + 1 << ". " << *temp.at(i);
     }
   }
 }
@@ -134,58 +121,7 @@ bool Library::albumTitleCompareFunction(songWrapper* a, songWrapper* b){
   return a1 < b1;
 }
 bool Library::numPlaysCompareFunction(songWrapper* a, songWrapper* b){
-  return a -> numberOfPlays < b -> numberOfPlays;
-}
-bool Library::addPlaylist(string title){
-  if (playlistExists(title)) {return false;}
-  Playlist *p1 = new Playlist(title);
-  playlistLibrary.insert({title, p1});
-  return true;
-}
-bool Library::removePlaylist(string title){
-  if (playlistExists(title)){
-    delete playlistLibrary.at(title);
-    playlistLibrary.erase(title);
-    return true;
-  }
-  return false;
-}
-void Library::renamePlaylist(string oldName, string newName){
-  playlistLibrary.insert({newName, playlistLibrary.at(oldName)});
-  playlistLibrary.at(newName) -> playlistTitleSetter(newName);
-  playlistLibrary.erase(oldName);
-  cout << "\"" << oldName << "\"" << " playlist renamed successfully to \"" << newName << "\"." << endl << "> ";
-  return;
-}
-void Library::displayAllPlaylists(){
-  vector<Playlist*> temp;
-  if(playlistLibrary.size() == 0){
-    cout << "You have no playlists." << endl << "> ";
-    return;
-  }
-  for (auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
-    temp.push_back(it -> second);
-  }
-  sort(temp.begin(), temp.end(), playlistCompareFunction);
-  for (unsigned int i = 0; i < temp.size(); ++i){
-    cout << i + 1 << ". " <<  *temp.at(i);
-  }
-}
-bool Library::playlistCompareFunction (Playlist* a, Playlist* b){
-  if (a -> playlistRatingGetter() > b -> playlistRatingGetter()){return true;}
-  else if(a -> playlistRatingGetter() == b -> playlistRatingGetter()){
-    string a1, a2;
-    a1 = a -> playlistTitleGetter();
-    a2 = b -> playlistTitleGetter();
-    transform(a1.begin(), a1.end(), a1.begin(), ::tolower);
-    transform(a2.begin(), a2.end(), a2.begin(), ::tolower);
-    if (a1 < a2){return true;}
-  }
-  else {return false;}
-}
-void Library::ratePlaylist(string title, unsigned int rating){
-  playlistLibrary.at(title) -> playlistRatingSetter(rating);
-  return;  
+  return a -> numberOfPlays > b -> numberOfPlays;
 }
 bool Library::songExists(Song* aSong){
   for(auto it = library.begin(); it != library.end(); ++it){
@@ -199,31 +135,8 @@ bool Library::songExists(unsigned int id){
   }
   return false;
 }
-bool Library::playlistExists(string name){
-  for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
-    if (name == it -> first){return true;}
-  }
-  return false;
-}
-void Library::songPlaylistPrint(string title){
-  if(playlistLibrary.at(title) -> playlistVectorSize() == 0){
-    cout << "\"" << title << "\" playlist has no songs." << endl << "> ";
-    return;
-  }
-  for(unsigned int i = 0; i <  playlistLibrary.at(title) -> playlistVectorSize(); ++i){
-    cout << i + 1 << ". ";
-    printSongFromId(playlistLibrary.at(title) -> playlistElementFetcher(i));
-  }
-  return;
-}
 void Library::printSongFromId(unsigned int id){
   cout << *(library.at(id)) << endl;
-}
-void Library::addSongPlaylist(string title, unsigned int id){
- playlistLibrary.at(title) -> addSong(id);
-}
-void Library::removeSongPlaylist(string title, unsigned int id){
-  playlistLibrary.at(title) -> removeSong(id);
 }
 unsigned int Library::findId(Song* aSong){
   for(auto it = library.begin(); it != library.end(); ++it){

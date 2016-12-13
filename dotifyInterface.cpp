@@ -5,9 +5,10 @@
 
 void dotifyInterface::run(){
 
-  cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << endl << "> ";
+  cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
   while (true) {
     userCommandInput();
+
   }
 
 }
@@ -27,7 +28,7 @@ void dotifyInterface::printHelpMenu(){
   << "PLY: Plays a specific song in your library a specified number of time" << endl
   << "EXP: Exports the song library and playlists to files" << endl
   << "HELP: Displays this help menu" << endl
-  << "EXIT: Exits the program" << endl;
+  << "EXIT: Exits the program" << endl << "> ";
 }
 void dotifyInterface::userCommandInput(){
   string userInput;
@@ -139,6 +140,7 @@ void dotifyInterface::userCommandInput(){
     cout << "What category should the songs be ordered by? (NAME/ARTIST/ALBUM/PLAYS)" << endl << "> ";
     getline(cin, sort);
     driver.displayAllLibrary(sort);
+    cout << "> ";
   }
   else if (userInput == "PLS"){
     driver.displayAllPlaylists();
@@ -174,7 +176,7 @@ void dotifyInterface::userCommandInput(){
       return;
     }
     driver.ratePlaylist(title, rate);
-    cout << "\"" << title << "\"" << "playlist rated successfully as a " << rate << "." << endl << "> ";
+    cout << "\"" << title << "\"" << " playlist rated successfully as a " << rate << "." << endl << "> ";
   }
   else if (userInput == "PLY"){
     unsigned int id, nTimes;

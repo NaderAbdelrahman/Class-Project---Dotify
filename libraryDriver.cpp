@@ -7,4 +7,95 @@ bool libraryDriver::addSong(string title, string artist, string album){
   Song *song = new Song(title, artist, album);
   return libObj.addSong(song);
 }
+void libraryDriver::removeSong(unsigned int id){
+  libObj.removeSong(id);
+  vector<string> temp;
+  for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
+    if(it -> second -> removeSong(id)){
+        temp.push_back(it -> first);
+    }
+  }
+  
+  if(!temp.empty()){
+    cout << "and from playlists ";
+    for(unsigned int i = 0; i < temp.size(); ++i){
+      cout << "\"" << temp[i] << "\", ";
+    }
+    cout << endl << "> ";
+  }
+}
+bool libraryDriver::addPlaylist(string title){
+  if (playlistExists(title)) {return false;}
+  Playlist *p1 = new Playlist(title);
+  playlistLibrary.insert({title, p1});
+  return true;
+}
+bool libraryDriver::removePlaylist(string title){
+  if (playlistExists(title)){
+    delete playlistLibrary.at(title);
+    playlistLibrary.erase(title);
+    return true;
+  }
+  return false;
+}
+void libraryDriver::renamePlaylist(string oldName, string newName){
+  playlistLibrary.insert({newName, playlistLibrary.at(oldName)});
+  playlistLibrary.at(newName) -> playlistTitleSetter(newName);
+  playlistLibrary.erase(oldName);
+  cout << "\"" << oldName << "\"" << " playlist renamed successfully to \"" << newName << "\"." << endl << "> ";
+  return;
+}
+bool libraryDriver::playlistCompareFunction (Playlist* a, Playlist* b){
+  if (a -> playlistRatingGetter() > b -> playlistRatingGetter()){return true;}
+  else if(a -> playlistRatingGetter() == b -> playlistRatingGetter()){
+    string a1, a2;
+    a1 = a -> playlistTitleGetter();
+    a2 = b -> playlistTitleGetter();
+    transform(a1.begin(), a1.end(), a1.begin(), ::tolower);
+    transform(a2.begin(), a2.end(), a2.begin(), ::tolower);
+    if (a1 < a2){return true;}
+  }
+  else {return false;}
+}
+void libraryDriver::displayAllPlaylists(){
+  vector<Playlist*> temp;
+  if(playlistLibrary.size() == 0){
+    cout << "You have no playlists." << endl << "> ";
+    return;
+  }
+  for (auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
+    temp.push_back(it -> second);
+  }
+  sort(temp.begin(), temp.end(), playlistCompareFunction);
+  for (unsigned int i = 0; i < temp.size(); ++i){
+    cout << i + 1 << ". " <<  *temp.at(i);
+  }
+}
+void libraryDriver::ratePlaylist(string title, unsigned int rating){
+  playlistLibrary.at(title) -> playlistRatingSetter(rating);
+  return;  
+}
+bool libraryDriver::playlistExists(string name){
+  for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
+    if (name == it -> first){return true;}
+  }
+  return false;
+}
+void libraryDriver::songPlaylistPrint(string title){
+  if(playlistLibrary.at(title) -> playlistVectorSize() == 0){
+    cout << "\"" << title << "\" playlist has no songs." << endl << "> ";
+    return;
+  }
+  for(unsigned int i = 0; i <  playlistLibrary.at(title) -> playlistVectorSize(); ++i){
+    cout << i + 1 << ". ";
+    printSongFromId(playlistLibrary.at(title) -> playlistElementFetcher(i));
+  }
+  return;
+}
+void libraryDriver::addSongPlaylist(string title, unsigned int id){
+ playlistLibrary.at(title) -> addSong(id);
+}
+void libraryDriver::removeSongPlaylist(string title, unsigned int id){
+  playlistLibrary.at(title) -> removeSong(id);
+}
 #endif // LIBRARY_DRIVER_CPP_

@@ -17,9 +17,15 @@ void dotifyInterface::run(){
   cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
   while (true) {
     userCommandInput();
-
   }
-
+}
+void dotifyInterface::run(string libraryFile, string playlistFile, bool playlist){
+  driver.loadLibrary(libraryFile, playlist);
+  driver.loadPlaylists(playlistFile);
+  cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
+  while (true) {
+    userCommandInput();
+  }
 }
 void dotifyInterface::printHelpMenu(){
   cout << "AS: Purchases a new song to your library" << endl

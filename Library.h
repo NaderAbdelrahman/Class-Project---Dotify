@@ -44,7 +44,7 @@ public:
   unsigned int returnValidId();
 private:
   unordered_map <unsigned int, songWrapper*> library;
-  unsigned int uniqueId = 0;
+  unsigned int uniqueId = 1;
 };
 
 #endif // LIBRARY_H_

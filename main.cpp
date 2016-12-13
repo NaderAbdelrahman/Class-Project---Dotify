@@ -13,7 +13,13 @@ int main(int argc, char *argv[]){
     dotifyInterface pgrm;
     pgrm.run(filename, playlist);
   }
-  if(argc)
+  if(argc == 3){
+    string libraryFilename = argv[1];
+    string playlistFilename = argv[2];
+    bool playlist = true;
+    dotifyInterface pgrm;
+    pgrm.run(libraryFilename, playlistFilename, playlist);
+  }
 
   return 0;
 }

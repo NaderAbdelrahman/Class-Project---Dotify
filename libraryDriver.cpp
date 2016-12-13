@@ -5,7 +5,14 @@
 
 bool libraryDriver::addSong(string title, string artist, string album){
   Song *song = new Song(title, artist, album);
-  return libObj.addSong(song);
+  //TRYING SOMETHING NEW TO FIX POTENTIAL MEMORY LEAK
+
+  //return libObj.addSong(song);
+  if(!libObj.addSong(song)){
+    delete song;
+    return false;
+  }
+  return true;
 }
 bool libraryDriver::addSong(string title, string artist, string album, int nplays, int id){
   Song *song = new Song(title, artist, album);
@@ -113,8 +120,7 @@ void libraryDriver::loadLibrary(string filename, bool playlist){
   }
   cout << "Loading library from \"" << filename << "\"." << endl;
   // Keep reading the untill the end 
-  while(!load.eof()){
-    getline(load, title, '|');
+  while(getline(load, title, '|')){
     getline(load, artist, '|');
     getline(load, album, '|');
     getline(load, nplays, '|');
@@ -127,15 +133,55 @@ void libraryDriver::loadLibrary(string filename, bool playlist){
   if(!playlist){cout << "No playlists file provided." << endl; }
 }
 void libraryDriver::loadPlaylists(string filename){
+  ifstream load;
   load.open(filename);
   if(load.fail()){
     cout << "Could not load playlists from \'" << filename << "\". Skipping." << endl;
     return;
   }
   cout << "Loading playlists from \"" << filename << "\"." << endl;
-  while(!load.eof()){
-    string title, rating, nsongs;
-    
+  string title, plytitle, rating, nsongs, artist, album;
+  while(getline(load, plytitle, '|')){
+    int numsongs, rate;
+    getline(load, rating, '|');
+    getline(load, nsongs);
+    numsongs = stoi(nsongs);
+    rate = stoi(rating);
+    addPlaylist(plytitle);
+    ratePlaylist(plytitle, rate);
+    for(int i = 0; i < numsongs; ++i){
+      getline(load, title, '|');
+      getline(load, artist, '|');
+      getline(load, album);
+      if(!songExists(title, artist, album)){
+        cout << "Could not find song in library: "
+        << "\"" << title << "|" << artist << "|" << album << "\"" << endl;
+      }
+      else{
+        addSongPlaylist(plytitle, songToId(title, artist, album));
+      }
+    }
+  }
+}
+bool libraryDriver::songExists(string title, string artist, string album){
+  Song *song = new Song(title, artist, album);
+  if(libObj.songExists(song)){
+    delete song;
+    return true;
+  }
+  else{
+    delete song;
+
+    return false;
+  }
+}
+unsigned int libraryDriver::songToId(string title, string artist, string album){
+  Song *song = new Song(title, artist, album);
+  if(libObj.songExists(song)){
+    unsigned int tmp;
+    tmp = libObj.findId(song);
+    delete song;
+    return tmp;
   }
 }
 #endif // LIBRARY_DRIVER_CPP_

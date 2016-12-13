@@ -7,6 +7,8 @@ class dotifyInterface{
 
 public:
   void run();
+  void run(string filename, bool playlist);
+  void run(string libraryFile, string playlistFile, bool playlist);
 
 private:
   libraryDriver driver;

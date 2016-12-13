@@ -11,14 +11,26 @@ bool Library::addSong(Song* aSong){
   }
   songWrapper *wrapper = new songWrapper;
   wrapper -> theSong = aSong;
-  wrapper -> id = uniqueId;
+  wrapper -> id = returnValidId();
   wrapper -> numberOfPlays = 0;
   library.insert({uniqueId, wrapper});
   cout << *aSong << ", identified as #" << uniqueId
     << ", purchased successfully to your library." << endl << "> ";
-  ++uniqueId;
   return true;
-    
+}
+unsigned int Library::returnValidId(){
+  while(library.count(uniqueId) == 1){
+    ++uniqueId;
+  }
+  return uniqueId;
+}
+bool Library::addSong(Song* aSong, int nplay, int id){
+  songWrapper *wrapper = new songWrapper;
+  wrapper -> theSong = aSong;
+  wrapper -> id = id;
+  wrapper -> numberOfPlays = nplay;
+  library.insert({id, wrapper});
+  return true;
 }
 void Library::removeSong(unsigned int id){
 

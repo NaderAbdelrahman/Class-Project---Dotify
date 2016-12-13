@@ -22,11 +22,12 @@ struct songWrapper{
     return os;
   }
 };
-  
+
 class Library{
 
 public:
   bool addSong(Song* aSong);
+  bool addSong(Song* aSong, int nplay, int id);
   void removeSong(unsigned int id);
   bool playSong(unsigned int id, unsigned int ntimes);
   void libraryDisplayAll(string organizeBy);
@@ -40,6 +41,7 @@ public:
   void printSongFromId(unsigned int id);
   unsigned int findId(Song* aSong);
   void printSongFromId2(unsigned int id);
+  unsigned int returnValidId();
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 0;

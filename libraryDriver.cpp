@@ -7,6 +7,10 @@ bool libraryDriver::addSong(string title, string artist, string album){
   Song *song = new Song(title, artist, album);
   return libObj.addSong(song);
 }
+bool libraryDriver::addSong(string title, string artist, string album, int nplays, int id){
+  Song *song = new Song(title, artist, album);
+  return libObj.addSong(song, nplays, id);
+}
 void libraryDriver::removeSong(unsigned int id){
   libObj.removeSong(id);
   vector<string> temp;
@@ -97,5 +101,41 @@ void libraryDriver::addSongPlaylist(string title, unsigned int id){
 }
 void libraryDriver::removeSongPlaylist(string title, unsigned int id){
   playlistLibrary.at(title) -> removeSong(id);
+}
+void libraryDriver::loadLibrary(string filename, bool playlist){
+  ifstream load;
+  string title, artist, album, tmp, nplays, id;
+  int plays, ID;
+  load.open(filename);
+  if(load.fail()){
+    cout << "Could not load library from \'" << filename << "\". Skipping." << endl;
+    return;
+  }
+  cout << "Loading library from \"" << filename << "\"." << endl;
+  // Keep reading the untill the end 
+  while(!load.eof()){
+    getline(load, title, '|');
+    getline(load, artist, '|');
+    getline(load, album, '|');
+    getline(load, nplays, '|');
+    getline(load, id);
+    plays = stoi(nplays);
+    ID = stoi(id);
+    addSong(title, artist, album, plays, ID);
+  }
+  load.close();
+  if(!playlist){cout << "No playlists file provided." << endl; }
+}
+void libraryDriver::loadPlaylists(string filename){
+  load.open(filename);
+  if(load.fail()){
+    cout << "Could not load playlists from \'" << filename << "\". Skipping." << endl;
+    return;
+  }
+  cout << "Loading playlists from \"" << filename << "\"." << endl;
+  while(!load.eof()){
+    string title, rating, nsongs;
+    
+  }
 }
 #endif // LIBRARY_DRIVER_CPP_

@@ -2,6 +2,7 @@
 #define LIBRARY_DRIVER_H_
 
 #include <string>
+#include <fstream>
 #include "Library.h"
 #include "Song.h"
 
@@ -10,6 +11,7 @@ class libraryDriver{
 
 public:
   bool addSong(string title, string artist, string album);
+  bool addSong(string title, string artist, string album, int nplays, int id);
   void removeSong(unsigned int id);
   bool playSong(unsigned int id, unsigned int times){return libObj.playSong(id, times);}
   void displayAllLibrary(string sortBy){libObj.libraryDisplayAll(sortBy);}
@@ -26,6 +28,8 @@ public:
   void songPlaylistPrint(string title);
   void addSongPlaylist(string title, unsigned int id);
   void removeSongPlaylist(string title, unsigned int id);
+  void loadLibrary(string filename, bool playlist);
+  void loadPlaylists(string filename);
 private:
   Library libObj;
   unordered_map <string, Playlist*> playlistLibrary;

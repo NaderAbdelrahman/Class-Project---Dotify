@@ -3,8 +3,17 @@
 
 #include "dotifyInterface.h"
 
-void dotifyInterface::run(){
+void dotifyInterface::run(string filename, bool playlist){
+  driver.loadLibrary(filename, playlist);
+  cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
+  while (true) {
+    userCommandInput();
 
+  }
+}
+void dotifyInterface::run(){
+  cout << "No library file provided." << endl
+  << "No playlists file provided." << endl;
   cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
   while (true) {
     userCommandInput();

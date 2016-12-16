@@ -215,7 +215,16 @@ void dotifyInterface::userCommandInput(){
     driver.playSong(id, nTimes);
   }
   else if (userInput == "EXP"){
-    cout << "NOT YET FAMS" << endl << "> ";
+    cout << "What is the name of the file you’d like to export your library to?"
+    << endl << "> ";
+    string name;
+    getline(cin, name);
+    driver.exportLibrary(name);
+    cout << "What is the name of the file you’d like to export your playlists to?"
+    << endl << "> ";
+    getline(cin, name);
+    driver.exportPlaylist(name);
+    cout << "Library and playlists exported successfully!" << endl << "> ";
     return;
   }
   else if (userInput == "HELP"){
@@ -234,6 +243,5 @@ void dotifyInterface::userCommandInput(){
   return;
   }
 }
-
 
 #endif // DOTIFY_INTERFACE_CPP_

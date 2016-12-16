@@ -16,6 +16,4 @@ bool Song::operator==(const Song& rhs){
   return songTitle == rhs.songTitle && artistName == rhs.artistName && albumTitle == rhs.albumTitle;
 }
 
-
-
 #endif // SONG_CPP_

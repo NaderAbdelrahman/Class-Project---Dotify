@@ -184,4 +184,17 @@ unsigned int libraryDriver::songToId(string title, string artist, string album){
     return tmp;
   }
 }
+void libraryDriver::exportPlaylist(string nameOfFile){
+  ofstream write;
+  write.open(nameOfFile);
+  for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
+    write << it -> second -> playlistTitleGetter() << "|"
+    << it -> second -> playlistRatingGetter() << "|"
+    << it -> second -> playlistVectorSize() << endl;
+    for (int i = 0; i < it -> second-> playlistVectorSize(); ++i){
+      libObj.exportPlaylistSongFromId(write, it -> second -> playlistElementFetcher(i));
+    }
+  }
+}
+
 #endif // LIBRARY_DRIVER_CPP_

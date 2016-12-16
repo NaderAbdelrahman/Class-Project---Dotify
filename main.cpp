@@ -20,6 +20,5 @@ int main(int argc, char *argv[]){
     dotifyInterface pgrm;
     pgrm.run(libraryFilename, playlistFilename, playlist);
   }
-
   return 0;
 }

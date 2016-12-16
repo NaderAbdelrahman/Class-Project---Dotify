@@ -2,6 +2,7 @@
 #define LIBRARY_H_
 
 #include <iostream>
+#include <fstream>
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
@@ -24,7 +25,6 @@ struct songWrapper{
 };
 
 class Library{
-
 public:
   bool addSong(Song* aSong);
   bool addSong(Song* aSong, int nplay, int id);
@@ -42,6 +42,8 @@ public:
   unsigned int findId(Song* aSong);
   void printSongFromId2(unsigned int id);
   unsigned int returnValidId();
+  void exportLibrary(string nameOfFile);
+  void exportPlaylistSongFromId(ostream& write, unsigned int id);
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 1;

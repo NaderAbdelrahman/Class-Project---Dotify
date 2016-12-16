@@ -161,5 +161,22 @@ void Library::printSongFromId2(unsigned int id){
   << " (" << library.at(id) -> theSong -> albumTitleGetter()
   << "), identified as #" << id;
 }
+void Library::exportLibrary(string nameOfFile){
+  ofstream write;
+  write.open(nameOfFile);
+  for(auto it = library.begin(); it != library.end(); ++it){
+    write << it -> second -> theSong -> songTitleGetter() << "|"
+    << it -> second -> theSong -> artistNameGetter() << "|"
+    << it -> second -> theSong -> albumTitleGetter() << "|"
+    << it -> second -> numberOfPlays << "|"
+    << it -> second -> id << endl;
+  }
+  write.close();
+}
+void Library::exportPlaylistSongFromId(ostream& write, unsigned int id){
+  write << library.at(id) -> theSong -> songTitleGetter() << "|"
+  << library.at(id) -> theSong -> artistNameGetter() << "|"
+  << library.at(id) -> theSong -> albumTitleGetter() << endl;
+}
 
 #endif // LIBRARY_CPP_

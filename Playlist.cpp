@@ -14,7 +14,6 @@ bool Playlist::removeSong(unsigned int id){
       return true;
     }
   }
-
   return false;
 }
 ostream& operator<<(ostream& os, const Playlist& playlist){

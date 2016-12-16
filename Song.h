@@ -7,7 +7,6 @@
 using namespace std;
 
 class Song{
-
 public:
   // Constructor, initializes a song's, title, artist, and album name
   Song(string songTitleSet, string artistNameSet, string albumTitleSet);

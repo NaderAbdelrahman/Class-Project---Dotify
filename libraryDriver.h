@@ -6,9 +6,7 @@
 #include "Library.h"
 #include "Song.h"
 
-
 class libraryDriver{
-
 public:
   bool addSong(string title, string artist, string album);
   bool addSong(string title, string artist, string album, int nplays, int id);
@@ -32,11 +30,11 @@ public:
   void loadLibrary(string filename, bool playlist);
   void loadPlaylists(string filename);
   unsigned int songToId(string title, string artist, string album);
+  void exportLibrary(string title){libObj.exportLibrary(title);}
+  void exportPlaylist(string title);
 private:
   Library libObj;
   unordered_map <string, Playlist*> playlistLibrary;
 };
-
-
 
 #endif // LIBRARY_DRIVER_H_

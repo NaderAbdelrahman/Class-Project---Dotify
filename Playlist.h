@@ -24,4 +24,5 @@ private:
   unsigned int playlistRating = 1; 
   vector<unsigned int> playlistVector;
 };
+
 #endif // PLAYLIST_H_

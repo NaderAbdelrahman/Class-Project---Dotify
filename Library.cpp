@@ -39,7 +39,7 @@ void Library::removeSong(unsigned int id){
     return;
   }
 
-    cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library" << endl;
+    cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library ";
     delete library.at(id) -> theSong;
     delete library.at(id);
     library.erase(id);}
@@ -49,7 +49,7 @@ bool Library::playSong(unsigned int id, unsigned int ntimes){
   library.at(id) -> numberOfPlays += ntimes;
   cout << *(library.at(id) -> theSong) << " played successfully " << ntimes
   << " times (" << numberOfPlaysPrev << " plays -> "
-  << library.at(id) -> numberOfPlays << " plays)." << endl << "> ";
+  << library.at(id) -> numberOfPlays << " plays).";
   return true;
 }
 void Library::libraryDisplayAll(string organizeBy){
@@ -148,7 +148,10 @@ bool Library::songExists(unsigned int id){
   return false;
 }
 void Library::printSongFromId(unsigned int id){
-  cout << *(library.at(id)) << endl;
+  cout << *(library.at(id));
+}
+void Library::printSongFromIdBasic(unsigned int id){
+  cout << *(library.at(id) -> theSong);
 }
 unsigned int Library::findId(Song* aSong){
   for(auto it = library.begin(); it != library.end(); ++it){
@@ -204,6 +207,101 @@ vector<unsigned int> Library::returnIdsFromAlbumName(string name){
     }
   }
   return ids;
+}
+vector<unsigned int> Library::magic(){
+vector<songWrapper*> temp;
+vector<songWrapper*> topFive;
+vector<unsigned int> tempIds;
+vector<unsigned int> allIdsUsed;
+int randNum;
+srand(time(0));
+  for (auto it = library.begin(); it != library.end(); ++it){
+    temp.push_back(it -> second);
+  }
+  sort(temp.begin(), temp.end(), numPlaysCompareFunction);
+  random_shuffle(temp.begin(), temp.end());
+  if(temp.size() >= 5){
+    for(int i = 0; i < 5; ++i){
+      topFive.push_back(temp[i]);
+    }
+  }
+  else if(temp.size() < 5 && temp.size() > 0){
+    for(unsigned int i = 0; i < temp.size(); ++i){
+      topFive.push_back(temp[i]);
+    }
+  }
+  else{
+    cout << "You have no songs in you library!" << endl << "> ";
+    return allIdsUsed;
+  }
+  cout << "Autogenerating based on the following songs:" << endl;
+  for(unsigned int i = 0; i < topFive.size(); ++i){
+    randNum = rand() % 3 + 1;
+    if(randNum == 1){
+      // Find Similar songs via song title
+      cout << "  " << *topFive[i] -> theSong << ". Similar songs by NAME:" << endl;
+      tempIds = returnIdsFromSongName(topFive[i] -> theSong -> songTitleGetter());
+      if(tempIds.size() >= 3){
+        for(int i = 0; i < 3; ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+      else{
+        for(unsigned int i = 0; i < tempIds.size(); ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+    }
+    if(randNum == 2){
+      // Find Similar songs via artist
+      cout << "  " << *topFive[i] -> theSong << ". Similar songs by ARTIST:" << endl;
+      tempIds = returnIdsFromArtistName(topFive[i] -> theSong -> artistNameGetter());
+      if(tempIds.size() >= 3){
+        for(int i = 0; i < 3; ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+      else{
+        for(unsigned int i = 0; i < tempIds.size(); ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+    }
+    if(randNum == 3){
+      // Find Similar songs via album
+      cout << "  " << *topFive[i] -> theSong << ". Similar songs by ALBUM:" << endl;
+      tempIds = returnIdsFromAlbumName(topFive[i] -> theSong -> albumTitleGetter());
+      if(tempIds.size() >= 3){
+        for(int i = 0; i < 3; ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+      else{
+        for(unsigned int i = 0; i < tempIds.size(); ++i){
+          cout << "     ";
+          printSongFromIdBasic(tempIds[i]);
+          cout << endl;
+          allIdsUsed.push_back(tempIds[i]);
+        }
+      }
+    }
+  }
+  return allIdsUsed;
 }
 
 #endif // LIBRARY_CPP_

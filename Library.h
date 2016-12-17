@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <utility>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 #include "Song.h"
 #include "Playlist.h"
 
@@ -39,6 +41,7 @@ public:
   bool songExists(Song* aSong);
   bool songExists(unsigned int id);
   void printSongFromId(unsigned int id);
+  void printSongFromIdBasic(unsigned int id);
   unsigned int findId(Song* aSong);
   void printSongFromId2(unsigned int id);
   unsigned int returnValidId();
@@ -47,6 +50,7 @@ public:
   vector<unsigned int> returnIdsFromSongName(string name);
   vector<unsigned int> returnIdsFromArtistName(string name);
   vector<unsigned int> returnIdsFromAlbumName(string name);
+  vector<unsigned int> magic();
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 1;

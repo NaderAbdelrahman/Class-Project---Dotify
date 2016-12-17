@@ -104,7 +104,11 @@ void dotifyInterface::userCommandInput(){
     return;
   }
   else if (userInput == "AG"){
-    cout << "NOT YET FAMS" << endl << "> ";
+
+    cout << "What is the category you’d like to autogenerate a playlist with? (NAME/ARTIST/ALBUM/MAGIC)" << endl << "> ";
+    string title;
+    getline(cin, title);
+    driver.autogenerate(title);
     return;
   }
   else if (userInput == "ASP"){

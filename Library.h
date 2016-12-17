@@ -44,6 +44,9 @@ public:
   unsigned int returnValidId();
   void exportLibrary(string nameOfFile);
   void exportPlaylistSongFromId(ostream& write, unsigned int id);
+  vector<unsigned int> returnIdsFromSongName(string name);
+  vector<unsigned int> returnIdsFromArtistName(string name);
+  vector<unsigned int> returnIdsFromAlbumName(string name);
 private:
   unordered_map <unsigned int, songWrapper*> library;
   unsigned int uniqueId = 1;

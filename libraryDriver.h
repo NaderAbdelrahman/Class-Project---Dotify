@@ -32,6 +32,7 @@ public:
   unsigned int songToId(string title, string artist, string album);
   void exportLibrary(string title){libObj.exportLibrary(title);}
   void exportPlaylist(string title);
+  void autogenerate(string name);
 private:
   Library libObj;
   unordered_map <string, Playlist*> playlistLibrary;

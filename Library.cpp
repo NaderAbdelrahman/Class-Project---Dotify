@@ -178,5 +178,32 @@ void Library::exportPlaylistSongFromId(ostream& write, unsigned int id){
   << library.at(id) -> theSong -> artistNameGetter() << "|"
   << library.at(id) -> theSong -> albumTitleGetter() << endl;
 }
+vector<unsigned int> Library::returnIdsFromSongName(string name){
+  vector<unsigned int> ids;
+  for(auto it = library.begin(); it != library.end(); ++it){
+    if(it -> second -> theSong -> songTitleGetter() == name){
+      ids.push_back(it -> second -> id);
+    }
+  }
+  return ids;
+}
+vector<unsigned int> Library::returnIdsFromArtistName(string name){
+  vector<unsigned int> ids;
+  for(auto it = library.begin(); it != library.end(); ++it){
+    if(it -> second -> theSong -> artistNameGetter() == name){
+      ids.push_back(it -> second -> id);
+    }
+  }
+  return ids;
+}
+vector<unsigned int> Library::returnIdsFromAlbumName(string name){
+  vector<unsigned int> ids;
+  for(auto it = library.begin(); it != library.end(); ++it){
+    if(it -> second -> theSong -> albumTitleGetter() == name){
+      ids.push_back(it -> second -> id);
+    }
+  }
+  return ids;
+}
 
 #endif // LIBRARY_CPP_

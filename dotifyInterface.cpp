@@ -57,6 +57,7 @@ void dotifyInterface::userCommandInput(){
     cout << "Which album does it belong to?" << endl << "> ";
     getline(cin, albumName);
     driver.addSong(songTitle, artistName, albumName);
+    return;
   } 
   else if (userInput == "RS"){
     cout << "What is the identifier of the song you'd like to remove from your library?" << endl << "> ";
@@ -189,7 +190,7 @@ void dotifyInterface::userCommandInput(){
     else if(rating == "4"){rate = 4;}
     else if(rating == "5"){rate = 5;}
     else{
-      cout << "\"" << rating << "\"" << "is not a valid rating." << endl << "> ";
+      cout << "\"" << rating << "\"" << " is not a valid rating." << endl << "> ";
       return;
     }
     driver.ratePlaylist(title, rate);

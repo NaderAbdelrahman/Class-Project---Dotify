@@ -39,7 +39,7 @@ void Library::removeSong(unsigned int id){
     return;
   }
 
-    cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library ";
+    cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library " << endl;
     delete library.at(id) -> theSong;
     delete library.at(id);
     library.erase(id);}

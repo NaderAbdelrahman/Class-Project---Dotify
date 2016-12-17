@@ -26,12 +26,12 @@ void libraryDriver::removeSong(unsigned int id){
         temp.push_back(it -> first);
     }
   }
-  
   if(!temp.empty()){
     cout << "and from playlists ";
     for(unsigned int i = 0; i < temp.size(); ++i){
       cout << "\"" << temp[i] << "\", ";
     }
+    temp.clear();
     cout << endl << "> ";
   }
 }
@@ -57,30 +57,42 @@ void libraryDriver::renamePlaylist(string oldName, string newName){
   return;
 }
 bool libraryDriver::playlistCompareFunction (Playlist* a, Playlist* b){
+  // If the rating of a is greater than b return true
+  // I ask if it is greater because I want
+  // higher numbers to be higher on the list
   if (a -> playlistRatingGetter() > b -> playlistRatingGetter()){return true;}
+  // If the ratings are the same, dump strings to temporary strings for sorting
+  // I transform the strings to lowercase that way I don't have issues with ACII values
   else if(a -> playlistRatingGetter() == b -> playlistRatingGetter()){
     string a1, a2;
     a1 = a -> playlistTitleGetter();
     a2 = b -> playlistTitleGetter();
     transform(a1.begin(), a1.end(), a1.begin(), ::tolower);
     transform(a2.begin(), a2.end(), a2.begin(), ::tolower);
+    // If the value of string a1 is less than string a2 return true
     if (a1 < a2){return true;}
+    else{return false;}
   }
+  // Else they are not sorted, return false
   else {return false;}
 }
 void libraryDriver::displayAllPlaylists(){
   vector<Playlist*> temp;
+  // If the map is empty, there are no playlists
   if(playlistLibrary.size() == 0){
     cout << "You have no playlists." << endl << "> ";
     return;
   }
+  // Dumping map into vector for sorting
   for (auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
     temp.push_back(it -> second);
   }
+  // Sorting vector by rating then title using playlistCompareFunction
   sort(temp.begin(), temp.end(), playlistCompareFunction);
   for (unsigned int i = 0; i < temp.size(); ++i){
     cout << i + 1 << ". " <<  *temp.at(i);
   }
+  cout << "> ";
 }
 void libraryDriver::ratePlaylist(string title, unsigned int rating){
   playlistLibrary.at(title) -> playlistRatingSetter(rating);
@@ -101,6 +113,7 @@ void libraryDriver::songPlaylistPrint(string title){
     cout << i + 1 << ". ";
     printSongFromId(playlistLibrary.at(title) -> playlistElementFetcher(i));
   }
+  cout << "> ";
   return;
 }
 void libraryDriver::addSongPlaylist(string title, unsigned int id){

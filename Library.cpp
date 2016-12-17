@@ -24,6 +24,7 @@ unsigned int Library::returnValidId(){
   }
   return uniqueId;
 }
+// Used when adding from file
 bool Library::addSong(Song* aSong, int nplay, int id){
   songWrapper *wrapper = new songWrapper;
   wrapper -> theSong = aSong;
@@ -33,13 +34,13 @@ bool Library::addSong(Song* aSong, int nplay, int id){
   return true;
 }
 void Library::removeSong(unsigned int id){
-
   if (!songExists(id)){
     cout << "No song with identifier #" << id <<" exists in your library." << endl << "> ";
     return;
   }
-
     cout << *(library.at(id) -> theSong) << ", identified as #" << library.at(id) -> id << " removed successfully from your library " << endl;
+    // Must deleted the pointer to the Song object that the wrapper makes
+    // and the song wrapper pointer itself
     delete library.at(id) -> theSong;
     delete library.at(id);
     library.erase(id);}
@@ -52,6 +53,8 @@ bool Library::playSong(unsigned int id, unsigned int ntimes){
   << library.at(id) -> numberOfPlays << " plays).";
   return true;
 }
+// Dumps to a vector for sorting
+// then prints from the vector
 void Library::libraryDisplayAll(string organizeBy){
   if (library.empty()){
     cout << "You have no songs in your library." << endl << "> ";
@@ -108,6 +111,10 @@ void Library::libraryDisplayAll(string organizeBy){
     }
   }
 }
+// For the next three compare functions I transform the strings
+// to lowercase because the string class overloads < operator
+// based of ACII values and captial letters have different
+// values from lowercase values
 bool Library::songTitleCompareFunction(songWrapper* a, songWrapper* b){
   string a1, b1;
   a1 = a -> theSong -> songTitleGetter();
@@ -147,9 +154,13 @@ bool Library::songExists(unsigned int id){
   }
   return false;
 }
+// Prints in this format:
+// “Hillary O’ Hillary” by Sam Bundy (2016) - 68 plays [#4]
 void Library::printSongFromId(unsigned int id){
   cout << *(library.at(id));
 }
+// Prints in this format:
+// “Love” by Simon Ayzman (CSCI 235 Blues)
 void Library::printSongFromIdBasic(unsigned int id){
   cout << *(library.at(id) -> theSong);
 }
@@ -158,6 +169,8 @@ unsigned int Library::findId(Song* aSong){
     if (*aSong == *(it -> second -> theSong)){return it -> first;}
   }
 }
+// Prints in this format:
+// “The Final Countdown” by Simon Ayzman (Trash Talk), identified as #27
 void Library::printSongFromId2(unsigned int id){
   cout << "\"" << library.at(id) -> theSong -> songTitleGetter() << "\" by "
   << library.at(id) -> theSong -> artistNameGetter()
@@ -181,6 +194,7 @@ void Library::exportPlaylistSongFromId(ostream& write, unsigned int id){
   << library.at(id) -> theSong -> artistNameGetter() << "|"
   << library.at(id) -> theSong -> albumTitleGetter() << endl;
 }
+// Returns a vector with the ids of the songs that have the same name
 vector<unsigned int> Library::returnIdsFromSongName(string name){
   vector<unsigned int> ids;
   for(auto it = library.begin(); it != library.end(); ++it){
@@ -208,6 +222,7 @@ vector<unsigned int> Library::returnIdsFromAlbumName(string name){
   }
   return ids;
 }
+// Its magic
 vector<unsigned int> Library::magic(){
 vector<songWrapper*> temp;
 vector<songWrapper*> topFive;

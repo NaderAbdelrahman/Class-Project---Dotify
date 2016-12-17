@@ -2,7 +2,8 @@
 #define DOTIFY_INTERFACE_CPP_
 
 #include "dotifyInterface.h"
-
+// Runs when two arguments are detected on program execution
+// Passes the library file name to the loadLibrary func
 void dotifyInterface::run(string filename, bool playlist){
   driver.loadLibrary(filename, playlist);
   cout << "Welcome to Dotify! For a full list of commands, type \"HELP\"." << endl << "> ";
@@ -11,6 +12,7 @@ void dotifyInterface::run(string filename, bool playlist){
 
   }
 }
+// Runs when one argument is detected on program execution
 void dotifyInterface::run(){
   cout << "No library file provided." << endl
   << "No playlists file provided." << endl;
@@ -19,6 +21,9 @@ void dotifyInterface::run(){
     userCommandInput();
   }
 }
+// Runs when three arguments are detected on program execution
+// Passes the library file name to the loadLibrary func
+// Passes the playlists file name to the loadPlaylists func
 void dotifyInterface::run(string libraryFile, string playlistFile, bool playlist){
   driver.loadLibrary(libraryFile, playlist);
   driver.loadPlaylists(playlistFile);
@@ -48,6 +53,7 @@ void dotifyInterface::printHelpMenu(){
 void dotifyInterface::userCommandInput(){
   string userInput;
   getline(cin, userInput);
+  // Add Song
   if(userInput == "AS"){
     string songTitle, artistName, albumName;
     cout << "What is the name of the song you’d like to purchase?" << endl << "> ";
@@ -59,6 +65,7 @@ void dotifyInterface::userCommandInput(){
     driver.addSong(songTitle, artistName, albumName);
     return;
   } 
+  // Remove Song
   else if (userInput == "RS"){
     cout << "What is the identifier of the song you'd like to remove from your library?" << endl << "> ";
     unsigned int id;
@@ -67,6 +74,7 @@ void dotifyInterface::userCommandInput(){
     getline(cin, temp); // remove unnecessary chars
     driver.removeSong(id);
   }
+  // Add Playlist
   else if (userInput == "AP"){
     cout << "What is the title of the playlist you’d like to create?" << endl << "> ";
     string title;
@@ -77,6 +85,7 @@ void dotifyInterface::userCommandInput(){
     }
     cout << "\"" << title << "\" playlist created successfully." << endl << "> ";
   }
+  // Remove Playlist
   else if (userInput == "RP"){
     cout << "What is the title of the playlist you’d like to remove?" << endl << "> ";
     string title;
@@ -87,6 +96,7 @@ void dotifyInterface::userCommandInput(){
     }
     cout << "\"" << title << "\" playlist removed successfully." << endl << "> ";
   }
+  // Rename Playlist
   else if (userInput == "RN"){
     string oldTitle, newTitle;
     cout << "What is the title of the playlist you’d like to rename?" << endl << "> ";
@@ -104,12 +114,14 @@ void dotifyInterface::userCommandInput(){
     driver.renamePlaylist(oldTitle, newTitle);
     return;
   }
+  // Autogenerate
   else if (userInput == "AG"){
     cout << "What is the category you’d like to autogenerate a playlist with? (NAME/ARTIST/ALBUM/MAGIC)" << endl << "> ";
     string title;
     getline(cin, title);
     driver.autogenerate(title);
   }
+  // Add a song to a playlist
   else if (userInput == "ASP"){
     string title;
     unsigned int id;
@@ -131,6 +143,7 @@ void dotifyInterface::userCommandInput(){
     driver.printSongFromId2(id);
     cout << ", added successfully to playlist \"" << title << "\"." << endl << "> ";
   }
+  // Remove a song from a playlist
   else if (userInput == "RSP"){
     string title;
     unsigned int id;
@@ -153,6 +166,7 @@ void dotifyInterface::userCommandInput(){
     cout << ", removed successfully from playlist \"" << title << "\"." << endl << "> ";
     return;
   }
+  // Print the library of songs
   else if (userInput == "LB"){
     string sort;
     cout << "What category should the songs be ordered by? (NAME/ARTIST/ALBUM/PLAYS)" << endl << "> ";
@@ -160,9 +174,11 @@ void dotifyInterface::userCommandInput(){
     driver.displayAllLibrary(sort);
     cout << "> ";
   }
+  // Prints all playlists
   else if (userInput == "PLS"){
     driver.displayAllPlaylists();
   }
+  // Prints all songs of a specific playlist
   else if (userInput == "PL"){
     string title;
     cout << "What is the title of the playlist you’d like to display?" << endl << "> ";
@@ -173,6 +189,7 @@ void dotifyInterface::userCommandInput(){
     }
     driver.songPlaylistPrint(title);
   }
+  // Rate a playlist
   else if (userInput == "RT"){
     string title, rating;
     unsigned int rate;
@@ -196,6 +213,7 @@ void dotifyInterface::userCommandInput(){
     driver.ratePlaylist(title, rate);
     cout << "\"" << title << "\"" << " playlist rated successfully as a " << rate << "." << endl << "> ";
   }
+  // Play a song
   else if (userInput == "PLY"){
     unsigned int id, nTimes;
     cout << "What is the identifier of the song you’d like to listen to?" << endl << "> ";
@@ -217,6 +235,7 @@ void dotifyInterface::userCommandInput(){
     }
     driver.playSong(id, nTimes);
   }
+  // Export library and playlists to files
   else if (userInput == "EXP"){
     cout << "What is the name of the file you’d like to export your library to?"
     << endl << "> ";
@@ -230,17 +249,21 @@ void dotifyInterface::userCommandInput(){
     cout << "Library and playlists exported successfully!" << endl << "> ";
     return;
   }
+  // Print help menu
   else if (userInput == "HELP"){
     printHelpMenu();
   }
+  // Exit dotify
   else if (userInput == "EXIT"){
     cout << "Thank you for using Dotify!" << endl;
     exit(EXIT_SUCCESS);
   }
+  // If user preses enter on the main menu
   else if(userInput == ""){
     cout << endl << "> ";
     return;
   }
+  // Edge case for invalid input
   else{
   cout << "Invalid input" << endl << "> ";
   return;

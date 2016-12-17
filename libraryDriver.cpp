@@ -2,22 +2,27 @@
 #define LIBRARY_DRIVER_CPP_
 
 #include "libraryDriver.h"
-
+// Makes pointer to song object and passes it a title, artist, and album
+// if addSong returns false that means that it already exists
+// so it deletes the song pointer it just made and returns false
 bool libraryDriver::addSong(string title, string artist, string album){
   Song *song = new Song(title, artist, album);
-  //TRYING SOMETHING NEW TO FIX POTENTIAL MEMORY LEAK
-
-  //return libObj.addSong(song);
   if(!libObj.addSong(song)){
     delete song;
     return false;
   }
   return true;
 }
+// addSong used by import function
 bool libraryDriver::addSong(string title, string artist, string album, int nplays, int id){
   Song *song = new Song(title, artist, album);
   return libObj.addSong(song, nplays, id);
 }
+// Passes the songs id to library's removeSong func
+// Then deletes all ids of the song to be deleted in all playlists
+// At the same time it removes the song from the playlists
+// it dumps the names of the playlists the song was deleted from into
+// a vector, in order to print the the playlists the song was removed from
 void libraryDriver::removeSong(unsigned int id){
   libObj.removeSong(id);
   vector<string> temp;
@@ -35,12 +40,18 @@ void libraryDriver::removeSong(unsigned int id){
     cout << endl << "> ";
   }
 }
+// Checks if the playlist exists
+// makes a pointer to a Playlist object
+// then adds it to a map based on it's title
 bool libraryDriver::addPlaylist(string title){
   if (playlistExists(title)) {return false;}
   Playlist *p1 = new Playlist(title);
   playlistLibrary.insert({title, p1});
   return true;
 }
+// Checks if the playlist exists
+// Deletes the pointer in the map
+// Then removes the entry from the map
 bool libraryDriver::removePlaylist(string title){
   if (playlistExists(title)){
     delete playlistLibrary.at(title);
@@ -49,6 +60,9 @@ bool libraryDriver::removePlaylist(string title){
   }
   return false;
 }
+// Makes a new playlist based on the new name
+// Copies the pointer from the old playlist to the new playlist
+// Then removes the old playlist from the map
 void libraryDriver::renamePlaylist(string oldName, string newName){
   playlistLibrary.insert({newName, playlistLibrary.at(oldName)});
   playlistLibrary.at(newName) -> playlistTitleSetter(newName);
@@ -98,6 +112,8 @@ void libraryDriver::ratePlaylist(string title, unsigned int rating){
   playlistLibrary.at(title) -> playlistRatingSetter(rating);
   return;  
 }
+// Iterates through the map and checks if it exists
+// worst case O(n)
 bool libraryDriver::playlistExists(string name){
   for(auto it = playlistLibrary.begin(); it != playlistLibrary.end(); ++it){
     if (name == it -> first){return true;}
@@ -109,6 +125,7 @@ void libraryDriver::songPlaylistPrint(string title){
     cout << "\"" << title << "\" playlist has no songs." << endl << "> ";
     return;
   }
+  // Calls printSongFromId function for every song in the playlist
   for(unsigned int i = 0; i <  playlistLibrary.at(title) -> playlistVectorSize(); ++i){
     cout << i + 1 << ". ";
     printSongFromId(playlistLibrary.at(title) -> playlistElementFetcher(i));
@@ -132,7 +149,7 @@ void libraryDriver::loadLibrary(string filename, bool playlist){
     return;
   }
   cout << "Loading library from \"" << filename << "\"." << endl;
-  // Keep reading the untill the end 
+  // Keep reading the untill the end of the file
   while(getline(load, title, '|')){
     getline(load, artist, '|');
     getline(load, album, '|');
@@ -188,6 +205,9 @@ bool libraryDriver::songExists(string title, string artist, string album){
     return false;
   }
 }
+// Makes a pointer to a Song obj
+// if the song exists, find the songs id and temporarily store it
+// delete the pointer and return the value
 unsigned int libraryDriver::songToId(string title, string artist, string album){
   Song *song = new Song(title, artist, album);
   if(libObj.songExists(song)){

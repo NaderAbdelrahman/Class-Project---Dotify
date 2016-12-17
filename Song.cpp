@@ -12,6 +12,8 @@ ostream& operator<<(ostream& os, const Song& song){
   os << "\"" << song.songTitle << "\" by " << song.artistName << " (" << song.albumTitle << ")";
   return os;
 }
+// A Song object is equal to another Song object when
+// their titles and artist and album are exactly the same
 bool Song::operator==(const Song& rhs){
   return songTitle == rhs.songTitle && artistName == rhs.artistName && albumTitle == rhs.albumTitle;
 }
